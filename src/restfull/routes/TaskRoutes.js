@@ -7,5 +7,6 @@ const router = Router();
 
 router.get("/", TaskController.fetchAllTasks);
 router.post("/", TaskController.addNewTask);
+router.patch("/", TaskController.UpdateTask);
 
 module.exports = { router, passport };

@@ -3,6 +3,7 @@
 import dotenv from "dotenv";
 import TaskService from "../../services/TaskService";
 import DB from "../../database";
+import { request } from "chai";
 
 const { User } = DB;
 
@@ -32,6 +33,21 @@ class TaskController {
       return res
         .status(200)
         .json({ message: "New Task added successfull", task: newTask });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: error.message || "Failled" });
+    }
+  }
+
+  static async UpdateTask(req, res) {
+    try {
+      const newTask = await TaskService.updateAtt(
+        { title: req.body.title },
+        { id: req.body.id }
+      );
+      return res
+        .status(200)
+        .json({ message: "Task updated successfull", task: newTask });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ message: error.message || "Failled" });
