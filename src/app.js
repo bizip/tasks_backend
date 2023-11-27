@@ -8,6 +8,7 @@ import dotenv from "dotenv";
 import router from "./restfull/routes/index";
 import DB from "./database";
 import passport from "passport";
+import { associate } from "./database/relationships";
 dotenv.config();
 
 const PORT = process.env.PORT || 4000;
@@ -31,7 +32,7 @@ const initializeDatabase = async () => {
     force: false,
     alter: process.env.NODE_ENV !== "production",
   });
-  // associate();
+  associate();
 };
 
 const start = () => {

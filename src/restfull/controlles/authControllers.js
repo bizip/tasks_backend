@@ -1,10 +1,8 @@
 /* eslint-disable quotes */
 import bcrypt from "bcrypt";
 import UserService from "../../services/userService";
-// import AuthTokenHelper from '../helpers/AuthTokenHelper';
 import dotenv from "dotenv";
 import Util from "../../helper/utils";
-import { sendLink } from "../../helper/SendVerificationLink";
 import { newJwtToken } from "../../helper/tokenGenerator";
 import { pick } from "lodash";
 
@@ -106,7 +104,6 @@ class AuthController {
         message: "user logged out",
       });
     } catch (error) {
-      console.log(error);
       return res
         .status(500)
         .json({ message: "Server error", error: error.message });

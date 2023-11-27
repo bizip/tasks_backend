@@ -1,5 +1,5 @@
 {
-  "name": "node_templete",
+  "name": "task_backend",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -18,14 +18,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bizip/node_templete.git"
+    "url": "git+https://github.com/bizip/task_backend.git"
   },
   "author": "Bizimungu Pascal",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bizip/node_templete/issues"
+    "url": "https://github.com/bizip/task_backend/issues"
   },
-  "homepage": "https://github.com/bizip/node_templete#readme",
+  "homepage": "https://github.com/bizip/task_backend#readme",
   "dependencies": {
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
