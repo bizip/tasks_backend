@@ -17,13 +17,6 @@ dotenv.config();
 
 const util = new Util();
 class AuthController {
-  /**
-   * Login Callback method.
-   * @function loginCallback
-   * @param {Object} req request Object.
-   * @param {Object} res response Object.
-   * @returns {Object} response Object.
-   */
   static async signupWithEmailAndPassword(req, res) {
     try {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -32,15 +25,14 @@ class AuthController {
         lastName: req.body.lastName,
         email: req.body.email,
         password: hashedPassword,
-        isVerified: req.body.isVerified,
         address: req.body.address,
       };
-
-      const createdUser = await UserService.createuser(newUser);
-      return sendLink(res, createdUser);
+      const createdUser = await UserService.createUser(newUser);
+      return res
+        .status(200)
+        .json({ message: "User created successfull", data: createdUser });
     } catch (error) {
-      util.setError(500, error.message);
-      return util.send(res);
+      return res.status(500).json({ message: error.message || "Failled" });
     }
   }
 
@@ -69,27 +61,19 @@ class AuthController {
   static async login(req, res) {
     try {
       const { email, password } = req.body;
-      if (email === null) {
-        util.message = "Email is Required";
-        util.statusCode = 400;
-        return util.send(res);
+      console.log(req.body);
+      if (!email) {
+        return res.status(500).json({ message: "Email Is required" });
       }
-      if (password === null) {
-        util.message = "Password is Required";
-        util.statusCode = 400;
-        return util.send(res);
+      if (!password) {
+        return res.status(500).json({ message: "Password is Required" });
       }
       const props = { email };
       const currentUser = await UserService.findByProp(props);
-      if (!currentUser) {
-        util.message = "User not exist";
-        util.statusCode = 404;
-        return util.send(res);
-      }
-      if (currentUser.isVerified === false) {
-        util.message = "Please Verify your account";
-        util.statusCode = 400;
-        return util.send(res);
+      if (currentUser.length === 0) {
+        return res
+          .status(500)
+          .json({ message: "The user with this email does not exist" });
       }
       const isMatch = await bcrypt.compare(password, currentUser[0].password);
       if (isMatch) {
@@ -100,23 +84,19 @@ class AuthController {
           "id",
           "RoleId",
         ]);
-
-        const authToken = await newJwtToken(displayData, "1h");
+        const authToken = await newJwtToken(displayData, "5h");
         UserService.updateAtt({ authToken }, { email: displayData.email });
-        util.statusCode = 200;
-        util.type = "success";
-        util.message = "User Logged in Successfully";
-        util.data = { displayData, authToken };
-        return util.send(res);
+        const data = { displayData, authToken };
+        return res.status(200).json({ message: "Loggin successfull", data });
       }
-      util.setError(401, "Incorrect username or password");
-      return util.send(res);
+      return res
+        .status(401)
+        .json({ message: "Incorrect username or password" });
     } catch (err) {
-      console.log(err);
-      util.setError(500, err.message);
-      return util.send(res);
+      return res.status(500).json({ message: err.message });
     }
   }
+
   static async logout(req, res) {
     try {
       const token = req.headers.authorization.split(" ")[1];

@@ -1,24 +1,31 @@
 /* eslint-disable no-console */
 /* eslint-disable no-useless-catch */
 /* eslint-disable no-unused-vars */
-import Sequelize from "sequelize";
 import DB from "../database";
 
 const { User, BlacklistedToken } = DB;
 
-const { Op } = Sequelize;
-
 /** Class representing user services. */
 
 class UserService {
-  /**
-   * Creates a new message.
-   * @param {object} param details of a message.
-   * @returns {object} users new message.
-   */
+  static async createUser(newUser) {
+    try {
+      const users = await User.create(newUser);
+      return users;
+    } catch (error) {
+      throw error;
+    }
+  }
 
-  static createuser(newUser) {
-    return User.create(newUser);
+  static async findByProp(prop) {
+    try {
+      const users = await User.findAll({
+        where: prop,
+      });
+      return users;
+    } catch (error) {
+      throw error;
+    }
   }
 
   static updateAtt(set, prop) {
@@ -32,11 +39,7 @@ class UserService {
       where: { id: modelId },
     });
   }
-  static findByProp(prop) {
-    return User.findAll({
-      where: prop,
-    });
-  }
+
   static async findAllUsers(param) {
     try {
       const users = await User.findAll({
@@ -80,11 +83,6 @@ class UserService {
     }
   }
 
-  /**
-   * Creates a new message.
-   * @param {object} param details of a message.
-   * @returns {object} users new message.
-   */
   static async findOrCreateUser(_user) {
     try {
       const [user, created] = await User.findOrCreate({
@@ -122,11 +120,6 @@ class UserService {
     }
   }
 
-  /**
-   * Creates a new message.
-   * @param {object} param details of a message.
-   * @returns {object} users new message.
-   */
   static async updateUser(body, param) {
     try {
       const users = await User.update(body, {

@@ -17,8 +17,8 @@ const UserModel = () => {
         allowNull: false,
       },
       role: {
-        type: DataTypes.ENUM("client", "manager", "employee", "admin"),
-        defaultValue: "client",
+        type: DataTypes.ENUM("user", "manager", "admin"),
+        defaultValue: "user",
       },
       lastName: {
         type: DataTypes.STRING,
@@ -32,12 +32,6 @@ const UserModel = () => {
       password: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: "123456",
-      },
-      isVerified: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
       },
       address: {
         type: DataTypes.STRING,
