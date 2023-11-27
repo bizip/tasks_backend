@@ -8,5 +8,6 @@ const router = Router();
 router.get("/", TaskController.fetchAllTasks);
 router.post("/", TaskController.addNewTask);
 router.patch("/", TaskController.UpdateTask);
+router.delete("/:id", TaskController.DeleteTask);
 
 module.exports = { router, passport };

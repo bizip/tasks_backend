@@ -34,6 +34,13 @@ class TaskService {
     });
   }
 
+  static async deleteTask(id) {
+    const data = await Task.destroy({
+      where: { id },
+    });
+    return data;
+  }
+
   static findById(modelId) {
     return Task.findOne({
       where: { id: modelId },

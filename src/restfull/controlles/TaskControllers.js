@@ -2,10 +2,6 @@
 
 import dotenv from "dotenv";
 import TaskService from "../../services/TaskService";
-import DB from "../../database";
-import { request } from "chai";
-
-const { User } = DB;
 
 dotenv.config();
 // const { JWT_SECRET, FRONTEND_URL, EXPIRES_IN } = process.env;
@@ -48,6 +44,25 @@ class TaskController {
       return res
         .status(200)
         .json({ message: "Task updated successfull", task: newTask });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: error.message || "Failled" });
+    }
+  }
+
+  static async DeleteTask(req, res) {
+    const { id } = req.params;
+    try {
+      const newTask = await TaskService.deleteTask(id);
+      if (newTask !== 0) {
+        return res
+          .status(200)
+          .json({ message: "Task updated successfull", task: newTask });
+      }
+
+      return res
+        .status(404)
+        .json({ message: "Task update Fail", task: newTask });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ message: error.message || "Failled" });
