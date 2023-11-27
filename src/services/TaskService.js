@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 import DB from "../database";
 
-const { Task } = DB;
+const { Task, User } = DB;
 
 /** Class representing Task services. */
 
@@ -43,7 +43,13 @@ class TaskService {
   static async findAllTasks(param) {
     try {
       const Tasks = await Task.findAll({
-        where: param,
+        include: [
+          {
+            model: User,
+            as: "allAsignees",
+            // attributes: ["id", "email"],
+          },
+        ],
       });
       return Tasks;
     } catch (error) {

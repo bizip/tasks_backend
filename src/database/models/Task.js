@@ -29,7 +29,7 @@ const TaskModel = () => {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "Assigneeses",
+          model: "tbl_users",
           key: "id",
         },
       },

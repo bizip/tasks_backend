@@ -2,6 +2,9 @@
 
 import dotenv from "dotenv";
 import TaskService from "../../services/TaskService";
+import DB from "../../database";
+
+const { User } = DB;
 
 dotenv.config();
 // const { JWT_SECRET, FRONTEND_URL, EXPIRES_IN } = process.env;
@@ -14,10 +17,11 @@ class TaskController {
   static async fetchAllTasks(req, res) {
     try {
       console.log(req.body);
-      //   const newTask = await TaskService.createTask(newTask);
+      const data = await TaskService.findAllTasks();
 
-      return res.status(200).json({ message: "List of all the tasks" });
+      return res.status(200).json({ message: "List of all the tasks", data });
     } catch (error) {
+      console.log(error);
       return res.status(500).json({ message: error.message || "Failled" });
     }
   }
@@ -29,6 +33,7 @@ class TaskController {
         .status(200)
         .json({ message: "New Task added successfull", task: newTask });
     } catch (error) {
+      console.log(error);
       return res.status(500).json({ message: error.message || "Failled" });
     }
   }

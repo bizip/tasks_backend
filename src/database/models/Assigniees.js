@@ -16,11 +16,6 @@ const AssigneesModel = () => {
 
       task_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: "Tasks",
-          key: "id",
-        },
       },
 
       user_id: {
