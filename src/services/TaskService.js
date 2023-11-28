@@ -57,7 +57,7 @@ class TaskService {
             attributes: ["id", "email"],
           },
         ],
-        order: [["createdAt", "ASC"]]
+        order: [["createdAt", "ASC"]],
       });
       return Tasks;
     } catch (error) {
