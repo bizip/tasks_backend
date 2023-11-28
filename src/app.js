@@ -1,10 +1,9 @@
 import bodyParser from "body-parser";
 import session from "express-session";
-// import { passport } from "./restfull/routes/authRouters";
+import cors from "cors";
 import express from "express";
 import flash from "connect-flash";
 import dotenv from "dotenv";
-// import router from "./routes";
 import router from "./restfull/routes/index";
 import DB from "./database";
 import passport from "passport";
@@ -14,6 +13,7 @@ dotenv.config();
 const PORT = process.env.PORT || 4000;
 const app = express();
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(
   session({

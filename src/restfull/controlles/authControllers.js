@@ -1,19 +1,9 @@
 /* eslint-disable quotes */
 import bcrypt from "bcrypt";
 import UserService from "../../services/userService";
-import dotenv from "dotenv";
-import Util from "../../helper/utils";
 import { newJwtToken } from "../../helper/tokenGenerator";
 import { pick } from "lodash";
 
-dotenv.config();
-// const { JWT_SECRET, FRONTEND_URL, EXPIRES_IN } = process.env;
-/**
- * @class AuthController
- * @classdesc AuthController
- */
-
-const util = new Util();
 class AuthController {
   static async signupWithEmailAndPassword(req, res) {
     try {
@@ -31,28 +21,6 @@ class AuthController {
         .json({ message: "User created successfull", data: createdUser });
     } catch (error) {
       return res.status(500).json({ message: error.message || "Failled" });
-    }
-  }
-
-  static async verifyEmail(req, res) {
-    try {
-      await UserService.updateAtt(
-        {
-          isVerified: true,
-        },
-        {
-          id: res.id,
-        }
-      );
-      const { id, RoleId, email } = await UserService.findById(res.id);
-      const token = await newJwtToken({ userId: id, RoleId }, "1h");
-      const data = { userId: id, email, token };
-      const message = "your account was verified!";
-      util.setSuccess(200, message, data);
-      return util.send(res);
-    } catch (error) {
-      util.setError(500, error.message);
-      return util.send(res);
     }
   }
 

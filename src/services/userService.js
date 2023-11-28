@@ -67,34 +67,6 @@ class UserService {
     }
   }
 
-  /**
-   * Creates returns a User.
-   * @param {object} param details of a message.
-   * @returns {object} users new message.
-   */
-  static async find(param) {
-    try {
-      const users = await User.findOne({
-        where: param,
-      });
-      return users;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  static async findOrCreateUser(_user) {
-    try {
-      const [user, created] = await User.findOrCreate({
-        where: { microsoftId: _user.microsoftId },
-        defaults: _user,
-      });
-      return user;
-    } catch (error) {
-      throw error;
-    }
-  }
-
   static async blacklistToken(token) {
     try {
       const blacklistedToken = await BlacklistedToken.create({
