@@ -17,12 +17,7 @@ const protect = async (req, res, next) => {
 
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      const user = await UserService.findUserById(decoded.id);
-
-      if (!user.isActivated)
-        return res
-          .status(401)
-          .json({ error: "Not Authorized,User Account Is Not activated" });
+      const user = await UserService.findById(decoded.id);
 
       req.user = user;
       next();
