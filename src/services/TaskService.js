@@ -54,9 +54,10 @@ class TaskService {
           {
             model: User,
             as: "allAsignees",
-            // attributes: ["id", "email"],
+            attributes: ["id", "email"],
           },
         ],
+        order: [["createdAt", "ASC"]]
       });
       return Tasks;
     } catch (error) {

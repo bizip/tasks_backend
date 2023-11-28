@@ -77,6 +77,24 @@ class AuthController {
         .json({ message: "Server error", error: error.message });
     }
   }
+
+  static async resetPassword(req, res) {
+    try {
+      const newPassword = await UserService.updateAtt(
+        { id: req.body.id },
+        { password: req.body.password }
+      );
+      if (newPassword[0] !== 0) {
+        return res
+          .status(200)
+          .json({ message: "Password updated successfull", newPassword });
+      }
+      return res.status(404).json({ message: "Imvalid user Id" });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: error.message || "Failled" });
+    }
+  }
 }
 
 export default AuthController;
